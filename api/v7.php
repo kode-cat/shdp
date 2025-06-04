@@ -99,7 +99,7 @@ switch ($rtn) {
         exit;
 
     case 'ghs':
-        header("Location: https://$username.github.io/$repo/$path");
+        header("Location: https://github.dev/$username/$repo/blob/$rfnc/$path");
         exit;
 
     case 'stz':
