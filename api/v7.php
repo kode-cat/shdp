@@ -1,5 +1,5 @@
 <?php
-// SHDP: Shadow Deploy PHP API (Beautiful, Responsive, Modular)
+// SHDP: Shadow Deploy PHP API (Robust, Responsive, Modular)
 // Author: kode-cat
 // GitHub: https://github.com/kode-cat/shdp
 
@@ -11,31 +11,24 @@ $rfnc     = $_GET['rfnc'] ?? 'latest';
 $rwrt     = $_GET['rwrt'] ?? null;
 $rtn      = $_GET['rtn'] ?? null;
 
-// Backward compatibility: support 'pg' as alias for 'path'
-if (!$path && isset($_GET['pg'])) {
-    $path = $_GET['pg'];
-}
-if (!$path) {
-    $path = 'index.html';
-}
+if (!$path && isset($_GET['pg'])) $path = $_GET['pg'];
+if (!$path) $path = 'index.html';
 
 $cdnRoot = "https://cdn.jsdelivr.net/gh/$username/$repo@$rfnc";
 $fileUrl = "$cdnRoot/$path";
 $ghUrl   = "https://github.com/$username/$repo/blob/$rfnc/$path";
 
-// --- SCD HTML function ---
+// --- SCD HTML function (string concatenation style) ---
 function echoSCDHtml($filename, $ext, $ghUrl, $code, $hljsLang = '') {
-    ?>
-<!DOCTYPE html>
+    $html = '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($filename) ?> — SHDP Beautiful SCD</title>
+    <title>' . htmlspecialchars($filename) . ' — SHDP Beautiful SCD</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
     <style>
-        body { margin: 0; background: #181c20; color: #d7dbe0; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+        body { margin: 0; background: #181c20; color: #d7dbe0; font-family: \'Inter\', \'Segoe UI\', Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #23272e; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid #222; }
         header h1 { font-size: 1.1rem; margin: 0; font-weight: 600; letter-spacing: 0.03em; flex: 1; color: #ffe97a; }
         .badge { background: #32363e; color: #ffe97a; font-size: .85em; padding: 0.2em 0.7em; border-radius: 0.8em; margin-left: .5em; }
@@ -44,7 +37,7 @@ function echoSCDHtml($filename, $ext, $ghUrl, $code, $hljsLang = '') {
         .gh-link { color: #ffe97a; margin-left: 1em; text-decoration: none; font-size: 1em; }
         main { flex: 1; width: 100vw; max-width: 100%; overflow-x: auto; padding: 1.5rem 0.5rem 2.5rem 0.5rem; box-sizing: border-box; display: flex; justify-content: center; }
         pre { background: #23272e; border-radius: 1em; box-shadow: 0 2px 24px #000a; font-size: 1em; margin: 0; overflow-x: auto; padding: 1.5em 1.5em 1.5em 0.9em; min-width: 0; width: 100%; max-width: 900px; }
-        code.hljs { background: none; color: inherit; font-size: 1em; font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace; }
+        code.hljs { background: none; color: inherit; font-size: 1em; font-family: \'Fira Mono\', \'Consolas\', \'Menlo\', monospace; }
         @media (max-width: 700px) {
             main { padding: 0.8rem 0.2rem 2.5rem 0.2rem; }
             pre { font-size: 0.96em; padding: 1em 0.3em 1em 0.4em; }
@@ -54,9 +47,9 @@ function echoSCDHtml($filename, $ext, $ghUrl, $code, $hljsLang = '') {
 </head>
 <body>
 <header>
-    <h1><?= htmlspecialchars($filename) ?> <span class="badge"><?= strtoupper($ext ?: 'TXT') ?></span></h1>
+    <h1>' . htmlspecialchars($filename) . ' <span class="badge">' . strtoupper($ext ?: 'TXT') . '</span></h1>
     <button class="copy-btn" onclick="copyCode()">Copy</button>
-    <a class="gh-link" href="<?= htmlspecialchars($ghUrl) ?>" target="_blank" title="View on GitHub">
+    <a class="gh-link" href="' . htmlspecialchars($ghUrl) . '" target="_blank" title="View on GitHub">
         <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
             <path fill="#ffe97a" d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387.6.11.82-.26.82-.577
             0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.754-1.333-1.754-1.09-.745.084-.729.084-.729
@@ -69,28 +62,28 @@ function echoSCDHtml($filename, $ext, $ghUrl, $code, $hljsLang = '') {
     </a>
 </header>
 <main>
-    <pre><code id="code-block" class="hljs <?= htmlspecialchars($hljsLang) ?>"><?= htmlspecialchars($code) ?></code></pre>
+    <pre><code id="code-block" class="hljs ' . htmlspecialchars($hljsLang) . '">' . htmlspecialchars($code) . '</code></pre>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
     hljs.highlightAll();
     function copyCode() {
-        const code = document.getElementById('code-block').innerText;
+        const code = document.getElementById("code-block").innerText;
         navigator.clipboard.writeText(code);
-        const btn = document.querySelector('.copy-btn');
-        btn.textContent = 'Copied!';
-        setTimeout(()=>{ btn.textContent = 'Copy'; }, 1700);
+        const btn = document.querySelector(".copy-btn");
+        btn.textContent = "Copied!";
+        setTimeout(()=>{ btn.textContent = "Copy"; }, 1700);
     }
 </script>
 </body>
 </html>
-<?php
+';
+    echo $html;
 }
 
 // --- Return mode switch ---
 switch ($rtn) {
     case 'raw':
-        // Redirect to jsdelivr for raw file
         header("Location: $fileUrl");
         exit;
 
@@ -99,7 +92,10 @@ switch ($rtn) {
         exit;
 
     case 'ghs':
-        header("Location: https://github.dev/$username/$repo/blob/$rfnc/$path");
+        // Redirect to GitHub Dev (github.dev) for online editor
+        // GitHub dev works with format: https://github.dev/user/repo/blob/ref/path
+        $ghDevUrl = "https://github.dev/$username/$repo/blob/$rfnc/$path";
+        header("Location: $ghDevUrl");
         exit;
 
     case 'stz':
@@ -133,17 +129,44 @@ if ($html === false) {
     exit;
 }
 
+// Only rewrite if likely HTML
+$isHtml = false;
+if (preg_match('/\.html?$/i', $path) || preg_match('/^\s*<(!doctype|html|head|body|meta|title|link|script|style|div|span|h1|h2|h3|p|a|img|form)\b/i', $html)) {
+    $isHtml = true;
+}
+
 $doRewrite = true;
 if ($rwrt === 'false' || $rwrt === '0') $doRewrite = false;
 
-if ($doRewrite) {
-    $html = preg_replace_callback('/<(script|link|img)[^>]+(src|href)=["\']([^"\']+)["\']/i', function ($m) use ($cdnRoot) {
-        $tag = $m[1];
-        $attr = $m[2];
-        $assetPath = $m[3];
-        if (preg_match('/^(https?:|data:)/', $assetPath)) return $m[0];
-        return "<$tag $attr=\"" . rtrim($cdnRoot, '/') . '/' . ltrim($assetPath, './') . '"';
-    }, $html);
+if ($doRewrite && $isHtml) {
+    // Rewrite src/href in script, link, img, a
+    $html = preg_replace_callback(
+        '/<(script|link|img|a)\b([^>]*)\b(src|href)=["\']([^"\']+)["\']/i',
+        function ($m) use ($cdnRoot) {
+            $tag = $m[1];
+            $attrs = $m[2];
+            $attr = $m[3];
+            $assetPath = $m[4];
+            // Edge cases: leave untouched if:
+            // - starts with http(s):, //, data:, mailto:, javascript:, tel:, or #
+            if (preg_match('/^(https?:|\/\/|data:|mailto:|javascript:|tel:|#)/i', $assetPath)) return $m[0];
+            // For anchor tags, only rewrite if not a pure hash or hash+query (e.g. "#foo" or "?x=1#y")
+            if ($tag === 'a') {
+                // If it's just a hash or starts with hash, don't rewrite (edge case)
+                if (preg_match('/^#/', $assetPath)) return $m[0];
+            }
+            return "<$tag$attrs $attr=\"" . rtrim($cdnRoot, '/') . '/' . ltrim($assetPath, './') . '"';
+        }, $html);
+
+    // Rewrite CSS url(...) in <style> blocks and inline style attributes
+    $html = preg_replace_callback(
+        '/url\((["\']?)([^"\')]+)\1\)/i',
+        function ($m) use ($cdnRoot) {
+            $url = $m[2];
+            // Don't rewrite if url is absolute, data, or hash
+            if (preg_match('/^(https?:|data:|\/\/|#)/i', $url)) return $m[0];
+            return 'url("' . rtrim($cdnRoot, '/') . '/' . ltrim($url, './') . '")';
+        }, $html);
 }
 
 header("Content-Type: text/html; charset=UTF-8");
