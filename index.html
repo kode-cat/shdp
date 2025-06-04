@@ -1,75 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ghost Repo | Shadow Deploy</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0d0d0d;
-      color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2em;
-    }
-
-    h1 {
-      color: #00ffff;
-      margin-bottom: 0.2em;
-      font-size: 2.5em;
-    }
-
-    p {
-      max-width: 600px;
-      text-align: center;
-      color: #cccccc;
-      font-size: 1.1em;
-    }
-
-    .btn {
-      margin-top: 2em;
-      background: #00ffff;
-      color: #000;
-      padding: 0.75em 1.5em;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background: #00cccc;
-    }
-
-    .footer {
-      margin-top: 3em;
-      font-size: 0.85em;
-      color: #666;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHDP - Shadow Deploy View PHP API</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-  <h1>Shadow Deploy</h1>
-  <p>
-    Welcome to <strong>Shadow Deploy</strong> — a shadow deployment service powered by GitHub and jsDelivr.<br />
-    Fast. Invisible. Flexible. Just plug in a repo and go.
-  </p>
-
-  <button class="btn" onclick="launchApp()">Launch Now</button>
-
-  <div class="footer">
-    Built with love by <code>@kode-cat</code> • Powered by <code>Shadow Deploy</code>
-  </div>
-
-  <script>
-    function launchApp() {
-      const url = `https://ghrepo.tiiny.site/shdp.php?u=kode-cat&r=ghrepo`;
-      window.location.href = url;
-    }
-  </script>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <h1><i class="fa-brands fa-github"></i> SHDP</h1>
+                <!--
+                <nav class="main-nav">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <a href="try.php" class="nav-link">Try It</a>
+                    <a href="demo.php" class="nav-link">Demo</a>
+                    <a href="stats.php" class="nav-link"><i class="fa-solid fa-chart-line"></i> Stats</a>
+                </nav>
+                -->
+            </div>
+            <p>Shadow Deploy PHP API - A fast GitHub content loader</p>
+            
+            <div class="code-banner">
+                <div class="code-title"><i class="fas fa-code"></i> Quick Start</div>
+                <div class="code-snippet">
+                    <span class="comment">// Load React's README with syntax highlighting</span><br>
+                    <span class="keyword">$url</span> = <span class="string">"api?user=facebook&repo=react&path=README.md&rtn=scd"</span>;<br><br>
+                    <span class="comment">// View repository on Stackblitz</span><br>
+                    <span class="keyword">$stzUrl</span> = <span class="string">"api?user=facebook&repo=react&rtn=stz"</span>;
+                </div>
+                
+                <div class="code-example">
+                    <div class="example-text">View React documentation with syntax highlighting</div>
+                    <a href="api?user=facebook&repo=react&path=README.md&rtn=scd" class="try-btn" target="_blank">Try it <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                
+                <div class="code-example">
+                    <div class="example-text">View React documention on Stackblitz</div>
+                    <a href="api?user=facebook&repo=react&rtn=stz" class="try-btn" target="_blank">Try it <i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="intro">
+            <h2>What is SHDP?</h2>
+            <p>SHDP is a PHP-based GitHub content loader API that fetches and displays repository content with multiple return modes and CDN optimization. It allows you to easily retrieve content from GitHub repositories and display it in various formats.</p>
+        </section>
+        
+        <section class="usage">
+            <h2>API Usage</h2>
+            <div>
+                <div class="endpoint">
+                    <code>api?user=<span>{username}</span>&repo=<span>{repository}</span>&rfnc=<span>{git_reference}</span>&path=<span>{path}</span>&rtn=<span>{return_mode}</span>&rwrt=<span>{rewrite_mode}</span></code>
+                </div>
+                <p><strong>NOTE:</strong> It is recommended to not include <i>rfnc</i> param in api if <i>rtn</i> is set to "pg" or "raw" because assets are directly fetched from <a href="https://www.jsdelivr.com" style="color: #0cd;">jsdelivr</a></p>
+            </div>
+            
+            <h3>Parameters</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Description</th>
+                        <th>Default</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>user <span class="required">Required</span></td>
+                        <td>GitHub username</td>
+                        <td>kode-cat</td>
+                        <td>Any valid GitHub username</td>
+                    </tr>
+                    <tr>
+                        <td>repo <span class="required">Required</span></td>
+                        <td>Repository name</td>
+                        <td>shdp</td>
+                        <td>Any valid repository name</td>
+                    </tr>
+                    <tr>
+                        <td>path <span class="optional">Optional</span></td>
+                        <td>File path in the repository</td>
+                        <td>index.html</td>
+                        <td>Any valid file path</td>
+                    </tr>
+                    <tr>
+                        <td>rtn <span class="optional">Optional</span></td>
+                        <td>Return mode</td>
+                        <td>pg</td>
+                        <td>
+                            <ul>
+                                <li><code>pg</code> - Full page with CDN resource rewriting</li>
+                                <li><code>raw</code> - Raw file content</li>
+                                <li><code>scd</code> - Syntax-highlighted code</li>
+                                <li><code>ghr</code> - GitHub redirect to file</li>
+                                <li><code>ghs</code> - GitHub redirect in github codespaces</li>
+                                <li><code>stz</code> - StackBlitz URL</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>rwrt <span class="optional">Optional</span></td>
+                        <td>Display mode</td>
+                        <td>true</td>
+                        <td>
+                            <ul>
+                                <li><code>true</code> - Normal mode with resource rewriting</li>
+                                <li><code>false</code> - Raw HTML mode (no scripts/css rewriting)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>rfnc <span class="optional">Optional</span></td>
+                        <td>Version (branch/tag/commit)</td>
+                        <td>latest</td>
+                        <td>Any valid Git reference: branch name, tag, or commit hash</td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td>cache <span class="optional">Optional</span></td>
+                        <td>Cache time in hours</td>
+                        <td>24</td>
+                        <td>
+                            <ul>
+                                <li><code>0</code> - Disable caching</li>
+                                <li><code>1-720</code> - Cache duration in hours</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>no_cache <span class="optional">Optional</span></td>
+                        <td>Force bypass cache</td>
+                        <td>Not set</td>
+                        <td>Set any value to bypass cache</td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="demo">
+            <h2>Try it out</h2>
+            <form id="api-form">
+                <div class="form-group">
+                    <label for="username">GitHub Username</label>
+                    <input type="text" id="username" value="kode-cat" placeholder="GitHub Username">
+                </div>
+                <div class="form-group">
+                    <label for="repository">Repository</label>
+                    <input type="text" id="repository" value="shdp" placeholder="Repository Name">
+                </div>
+                <div class="form-group">
+                    <label for="path">File Path</label>
+                    <input type="text" id="path" value="index.html" placeholder="File Path">
+                </div>
+                <div class="form-group">
+                    <label for="return-mode">Return Mode</label>
+                    <select id="return-mode">
+                        <option value="pg">Full Page (pg)</option>
+                        <option value="raw">Raw Content (raw)</option>
+                        <option value="scd">Syntax Highlighted Code (scd)</option>
+                        <option value="ghr">GitHub Redirect (ghr)</option>
+                        <option value="ghs">GitHub Pages (ghs)</option>
+                        <option value="stz">StackBlitz (stz)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="display-mode">Display Mode</label>
+                    <select id="display-mode">
+                        <option value="0">Normal (0)</option>
+                        <option value="1">Raw HTML (1)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="version">Version (branch/tag/commit)</label>
+                    <input type="text" id="version" value="latest" placeholder="latest, main, v1.0, etc.">
+                </div>
+                <!--
+                <div class="form-group">
+                    <label for="cache-time">Cache Time (hours)</label>
+                    <input type="number" id="cache-time" value="24" min="0" max="720">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="no-cache"> 
+                        <label for="no-cache">Bypass cache</label>
+                    </div>
+                </div>
+                -->
+                <div class="form-actions">
+                    <button type="submit" id="generate-btn">Generate URL</button>
+                    <button type="button" id="open-btn">Open in New Tab</button>
+                </div>
+            </form>
+            <div class="result">
+                <h3>Generated URL</h3>
+                <div class="url-box">
+                    <code id="result-url"></code>
+                    <button id="copy-btn" title="Copy to Clipboard">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div class="preview">
+                    <h3>Preview</h3>
+                    <div id="preview-container">
+                        <p class="placeholder">Click "Generate URL" to see a preview</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="examples">
+            <h2>Example Use Cases</h2>
+            <div class="example-card">
+                <h3>View a JavaScript file in raw mode</h3>
+                <code>api?user=facebook&repo=react&path=packages/react/index.js&rtn=raw</code>
+                <button class="try-btn" data-u="facebook" data-r="react" data-p="packages/react/index.js" data-rtn="raw" data-m="0">Try it</button>
+            </div>
+            <div class="example-card highlight-card">
+                <h3>Load a README file with syntax highlighting</h3>
+                <code>api?user=facebook&repo=react&path=README.md&rtn=scd</code>
+                <button class="try-btn" data-u="facebook" data-r="react" data-p="README.md" data-rtn="scd" data-m="0">Try it</button>
+            </div>
+            <div class="example-card">
+                <h3>Open a repository in StackBlitz</h3>
+                <code>api?user=sveltejs&repo=svelte&rtn=stz</code>
+                <button class="try-btn" data-u="sveltejs" data-r="svelte" data-p="index.html" data-rtn="stz" data-m="0">Try it</button>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>SHDP: Shadow Deploy PHP API &copy; 2023 <a href="https://github.com/kode-cat/shdp" target="_blank">kode-cat</a></p>
+            <div class="social-links">
+                <a href="https://github.com/kode-cat/shdp" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+        </div>
+    </footer>
+    
+    <button id="scroll-top" class="scroll-top" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <script src="assets/js/script.js"></script>
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Check saved theme
+        const savedTheme = localStorage.getItem('shdp-theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            icon.classList.replace(isLight ? 'fa-moon' : 'fa-sun', isLight ? 'fa-sun' : 'fa-moon');
+            localStorage.setItem('shdp-theme', isLight ? 'light' : 'dark');
+        });
+        
+        // Scroll to top functionality
+        const scrollBtn = document.getElementById('scroll-top');
+        window.onscroll = () => {
+            scrollBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        };
+        scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    </script>
+    <!--<script src="app.js"></script>-->
 </body>
+
 </html>
