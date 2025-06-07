@@ -1,7 +1,13 @@
 {
   "functions": {
-    "api/*.php": {
+    "**/*.php": {
       "runtime": "vercel-php@0.7.3"
+    },
+    "**/*.node.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/*.js": {
+      "runtime": "nodejs18.x"
     }
   }
 }
