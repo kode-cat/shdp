@@ -199,7 +199,7 @@ function rewriteRelativeUrls(html, cdnRoot) {
     const user = getSearchParam("user"); //any github username
     const repo = getSearchParam("repo"); //any github repository
     const rfnc = getSearchParam("rfnc") || "latest"; //any git reference
-    const file = getSearchParam("file") || "index.html"; //path to file
+    const file = getSearchParam("path") || "index.html"; //path to file
     const rwrt = getSearchParam("rwrt") || "true"; //rewrite base url? true or false
     const rtn = getSearchParam("rtn") || "pg"; //return type
     rtn_funcs[rtn](user, repo, rfnc, file, rwrt); //call appropriate function
