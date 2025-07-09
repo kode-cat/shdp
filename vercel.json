@@ -8,9 +8,21 @@
     }
   },
   "rewrites": [
-    { 
-      "source": "/api/js", 
-      "destination": "/api/js/index.html" 
+    {
+      "source": "/api/:user/:repo@:rfnc/:path*",
+      "destination": "/api/index.php?user=:user&repo=:repo&rfnc=:rfnc&path=:path"
+    },
+    {
+      "source": "/api/:user/:repo@:rfnc",
+      "destination": "/api/index.php?user=:user&repo=:repo&rfnc=:rfnc"
+    },
+    {
+      "source": "/api/:user/:repo/:path*",
+      "destination": "/api/index.php?user=:user&repo=:repo&path=:path"
+    },
+    {
+      "source": "/api/:user/:repo",
+      "destination": "/api/index.php?user=:user&repo=:repo"
     }
   ]
 }
