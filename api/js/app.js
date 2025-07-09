@@ -196,8 +196,8 @@ function rewriteRelativeUrls(html, cdnRoot) {
 
 (async () => {
   try {
-    const user = getSearchParam("user"); //any github username
-    const repo = getSearchParam("repo"); //any github repository
+    const user = getSearchParam("user") || "kode-cat"; //any github username
+    const repo = getSearchParam("repo") || "shdp"; //any github repository
     const rfnc = getSearchParam("rfnc") || "latest"; //any git reference
     const file = getSearchParam("path") || "index.html"; //path to file
     const rwrt = getSearchParam("rwrt") || "true"; //rewrite base url? true or false
