@@ -2,7 +2,7 @@
 
 **SHDP** (Static HTML Deploy Preview) is a lightweight tool for quickly viewing changes made to static HTML websites hosted on GitHub. It works by scraping and previewing files from any public GitHub repository, letting you see how a site looks at any commit, branch, or PR—instantly.
 
-[![Try it out](https://img.shields.io/badge/Try%20it%20out-gray?style=for-the-badge&logo=git&logoColor=white)](https://shdp.vercel.app)
+[![Try it out](https://img.shields.io/badge/Try%20it%20out-CF96FD?style=for-the-badge)](https://shdp.vercel.app)
 
 ---
 
