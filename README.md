@@ -75,7 +75,9 @@ https://your-shdp-instance/api/index.php?user=USERNAME&repo=REPO&path=FILEPATH&r
 ## API Files
 
 The main API logic & other versions can be found in:
-- `api/index.php` — Handles parameter parsing, fetching files, rewriting assets, and rendering previews or redirects.
+- *`api/index.php`*: Handles parameter parsing, fetching files, rewriting assets, and rendering previews or redirects.It supports all features of shdp api.
+- *`api/v1.php`*: Handles only two params "user" & "repo" & comes along with resource rewriting, good for previewing simple static html quickly
+- *`api/v2.php`*: Handles all params except rfnc & rwrt
 
 ---
 
