@@ -74,7 +74,7 @@ https://your-shdp-instance/api/index.php?user=USERNAME&repo=REPO&path=FILEPATH&r
 
 ## API Files
 
-The main API logic can be found in:
+The main API logic & other versions can be found in:
 - `api/index.php` — Handles parameter parsing, fetching files, rewriting assets, and rendering previews or redirects.
 
 ---
